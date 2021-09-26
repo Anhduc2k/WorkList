@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react'
 import './Login.css'
-export class Login extends Component {
+class Login extends Component {
   render() {
     return (
       <Grid textAlign="center" verticalAlign="middle" className="app">
