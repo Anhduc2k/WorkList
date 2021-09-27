@@ -6,6 +6,8 @@ import Login from './components/auth/Login'
 import Register from './components/auth/Register'
 import reportWebVitals from './reportWebVitals'
 import 'semantic-ui-css/semantic.min.css'
+import { Provider } from 'react-redux'
+import store from './redux/store'
 
 class Root extends Component {
   render() {
@@ -22,9 +24,11 @@ class Root extends Component {
 }
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Root />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <Root />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 )
 
