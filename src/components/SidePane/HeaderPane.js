@@ -6,7 +6,7 @@ class HeaderPane extends Component {
     return (
       <Header>
         <Icon name="tasks"></Icon>
-        <Header.Content>WorkList</Header.Content>
+        <Header.Content style={{ color: 'green', fontSize: '2rem' }}>WorkList</Header.Content>
       </Header>
     )
   }
