@@ -1,18 +1,76 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Button, Form, FormField, Header, Icon, Input, Modal, Segment } from 'semantic-ui-react'
-import { setWorkDate, setWorkDateData } from '../../redux/workdates/workDateActions'
-
+import {
+  refreshWorkDateDataId,
+  setWorkDate,
+  setWorkDateData
+} from '../../redux/workdates/workDateActions'
+import firebase from '../../firebase'
 class TopHeaderPane extends Component {
   state = {
     modal: false,
-    workName: ''
+    workName: '',
+    workDatesRef: firebase.database().ref('workdates'),
+    worksRef: firebase.database().ref('works')
   }
   handleChange = event => {
     const { name, value } = event.target
     this.setState({ [name]: value })
   }
-  handleSubmit = event => {}
+  handleSubmit = event => {
+    const { workName, worksRef } = this.state
+    if (this.props.workDateData) {
+      this.saveWork(this.props.workDateData.id, workName, worksRef)
+    } else {
+      this.saveWorkDate()
+    }
+  }
+
+  saveWorkDate() {
+    if (this.isFormValid(this.state)) {
+      const { workDatesRef, workName, worksRef } = this.state
+      const { user, workDate } = this.props
+      const key = workDatesRef.push().key
+      const newWorkDate = {
+        id: key,
+        date: workDate,
+        uid: user.uid
+      }
+      workDatesRef
+        .child(key)
+        .update(newWorkDate)
+        .then(() => {
+          console.log('success')
+          this.saveWork(key, workName, worksRef)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+  }
+
+  // luu cong viec duoc nhap vao o trong ngay`
+  saveWork = (key, workName, worksRef) => {
+    const newWork = {
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+      name: workName,
+      status: 'To do'
+    }
+    worksRef
+      .child(key)
+      .push()
+      .set(newWork)
+      .then(() => {
+        console.log('save work')
+        this.closeModal()
+        this.props.refreshWorkDateDataId(Math.random())
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+  isFormValid = ({ workName }) => workName
   closeModal = () => {
     this.setState({ modal: false })
   }
@@ -65,12 +123,15 @@ class TopHeaderPane extends Component {
 }
 
 // connect redux store
-const mapStateToProps = ({ workDates: { workDate } }) => ({
-  workDate: workDate
+const mapStateToProps = ({ workDates: { workDate, workDateData }, users: { user } }) => ({
+  workDate: workDate,
+  workDateData: workDateData,
+  user: user
 })
 
 const mapDispatchToProps = dispatch => ({
   setWorkDate: workDate => dispatch(setWorkDate(workDate)),
-  setWorkDateData: data => dispatch(setWorkDateData(data))
+  setWorkDateData: data => dispatch(setWorkDateData(data)),
+  refreshWorkDateDataId: id => dispatch(refreshWorkDateDataId(id))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(TopHeaderPane)
