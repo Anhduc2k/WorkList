@@ -7,6 +7,8 @@ import firebase from '../firebase'
 import { connect } from 'react-redux'
 import { clearUser, setUser } from '../redux/users/useActions'
 import TopHeaderPane from './TopPane/TopHeaderPane'
+import ContentPane from './ContentPane/ContentPane'
+import EmptyContenMessage from './ContentPane/EmptyContenMessage'
 export class App extends Component {
   handleSignOut = () => {
     firebase
@@ -29,6 +31,13 @@ export class App extends Component {
                 <TopHeaderPane></TopHeaderPane>
               </Grid.Row>
               <Divider></Divider>
+              <Grid.Row>
+                {this.props.workDateData ? (
+                  <ContentPane></ContentPane>
+                ) : (
+                  <EmptyContenMessage workDate={this.props.workDate}></EmptyContenMessage>
+                )}
+              </Grid.Row>
             </Grid.Column>
           </Grid.Column>
         </Grid.Column>
@@ -37,7 +46,10 @@ export class App extends Component {
   }
 }
 
-const mapStateToProps = ({ users: { loading } }) => ({})
+const mapStateToProps = ({ users: { loading }, workDates: { workDate, workDateData } }) => ({
+  workDate: workDate,
+  workDateData // enhaned object : workDateData: workDateData
+})
 
 const mapDispatchToProps = dispatch => ({
   setUser: user => dispatch(setUser(user)),
