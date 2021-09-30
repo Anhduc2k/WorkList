@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Divider, Header, Icon, Segment } from 'semantic-ui-react'
+import { refreshWorkDateDataId } from '../../redux/workdates/workDateActions'
 
 class TodoPane extends Component {
+  handleDeleteWork = work => {}
+  handleUpdateStatus = work => {}
   render() {
+    const { toDoWorks } = this.props
     return (
       <Segment stacked>
         <Header>
@@ -11,18 +15,36 @@ class TodoPane extends Component {
           <Header.Content>To Do</Header.Content>
         </Header>
         <Divider></Divider>
-        <Segment attached clearing>
-          Ten cong viec
-          <Button icon="trash alternate" inverted color="red" floated="right" size="tiny"></Button>
-          <Button icon="checkmark" inverted color="blue" floated="right" size="tiny"></Button>
-        </Segment>
+        {toDoWorks &&
+          toDoWorks.length > 0 &&
+          toDoWorks.map(item => (
+            <Segment attached clearing>
+              {item.name}
+              <Button
+                icon="trash alternate"
+                inverted
+                color="red"
+                floated="right"
+                size="tiny"
+                onClick={() => this.handleDeleteWork(item)}
+              ></Button>
+              <Button
+                icon="checkmark"
+                inverted
+                color="blue"
+                floated="right"
+                size="tiny"
+                onClick={() => this.handleUpdateStatus(item)}
+              ></Button>
+            </Segment>
+          ))}
       </Segment>
     )
   }
 }
 
-const mapStateToProps = state => ({})
+const mapDispatchToProps = dispatch => ({
+  refreshWorkDateDataId: id => dispatch(refreshWorkDateDataId(id))
+})
 
-const mapDispatchToProps = {}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TodoPane)
+export default connect(null, mapDispatchToProps)(TodoPane)

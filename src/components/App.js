@@ -19,6 +19,7 @@ export class App extends Component {
       })
   }
   render() {
+    const { workDate, workDateData, refreshWorkDateDataId } = this.props
     return (
       <Grid stretched style={{ background: '#eee' }} stackable>
         <Grid.Column width="5">
@@ -33,9 +34,15 @@ export class App extends Component {
               <Divider></Divider>
               <Grid.Row>
                 {this.props.workDateData ? (
-                  <ContentPane></ContentPane>
+                  <ContentPane
+                    key={`${workDateData.id}${refreshWorkDateDataId}`}
+                    workDateId={workDateData.id}
+                  ></ContentPane>
                 ) : (
-                  <EmptyContenMessage workDate={this.props.workDate}></EmptyContenMessage>
+                  <EmptyContenMessage
+                    key={workDate}
+                    workDate={this.props.workDate}
+                  ></EmptyContenMessage>
                 )}
               </Grid.Row>
             </Grid.Column>

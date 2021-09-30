@@ -16,12 +16,6 @@ class DonePane extends Component {
           <Button icon="trash alternate" inverted color="red" floated="right" size="tiny"></Button>
           <Button icon="checkmark" inverted color="blue" floated="right" size="tiny"></Button>
         </Segment>
-
-        <Segment attached clearing>
-          Ten cong viec
-          <Button icon="trash alternate" inverted color="red" floated="right" size="tiny"></Button>
-          <Button icon="checkmark" inverted color="blue" floated="right" size="tiny"></Button>
-        </Segment>
       </Segment>
     )
   }
