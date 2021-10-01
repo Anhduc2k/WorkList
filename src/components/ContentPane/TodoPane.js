@@ -7,7 +7,21 @@ class TodoPane extends Component {
   state = {
     worksRef: firebase.database().ref('works')
   }
-  handleDeleteWork = work => {}
+  handleDeleteWork = work => {
+    const { worksRef } = this.state
+    const { workDateId } = this.props
+
+    worksRef
+      .child(workDateId)
+      .child(work.id)
+      .remove()
+      .then(() => {
+        this.props.refreshWorkDateDataId(Math.random())
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
   handleUpdateStatus = work => {
     const { worksRef } = this.state
     const { workDateId } = this.props
@@ -21,7 +35,6 @@ class TodoPane extends Component {
         timestamp: firebase.database.ServerValue.TIMESTAMP
       })
       .then(updatedWork => {
-        console.log(updatedWork)
         this.props.refreshWorkDateDataId(Math.random())
       })
       .catch(err => {

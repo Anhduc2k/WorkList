@@ -38,6 +38,7 @@ export class App extends Component {
                   <ContentPane
                     key={`${workDateData.id}${refreshWorkDateDataId}`}
                     workDateId={workDateData.id}
+                    workDate={workDate}
                   ></ContentPane>
                 ) : (
                   <EmptyContenMessage
