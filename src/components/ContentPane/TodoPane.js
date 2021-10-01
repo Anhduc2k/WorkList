@@ -2,10 +2,32 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Divider, Header, Icon, Segment } from 'semantic-ui-react'
 import { refreshWorkDateDataId } from '../../redux/workdates/workDateActions'
-
+import firebase from '../../firebase'
 class TodoPane extends Component {
+  state = {
+    worksRef: firebase.database().ref('works')
+  }
   handleDeleteWork = work => {}
-  handleUpdateStatus = work => {}
+  handleUpdateStatus = work => {
+    const { worksRef } = this.state
+    const { workDateId } = this.props
+
+    worksRef
+      .child(workDateId)
+      .child(work.id)
+      .update({
+        name: work.name,
+        status: 'DONE',
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      })
+      .then(updatedWork => {
+        console.log(updatedWork)
+        this.props.refreshWorkDateDataId(Math.random())
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
   render() {
     const { toDoWorks } = this.props
     return (
@@ -18,7 +40,7 @@ class TodoPane extends Component {
         {toDoWorks &&
           toDoWorks.length > 0 &&
           toDoWorks.map(item => (
-            <Segment attached clearing>
+            <Segment key={item.id} attached clearing>
               {item.name}
               <Button
                 icon="trash alternate"

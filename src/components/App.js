@@ -10,6 +10,7 @@ import TopHeaderPane from './TopPane/TopHeaderPane'
 import ContentPane from './ContentPane/ContentPane'
 import EmptyContenMessage from './ContentPane/EmptyContenMessage'
 export class App extends Component {
+  // fn logout
   handleSignOut = () => {
     firebase
       .auth()
@@ -53,9 +54,13 @@ export class App extends Component {
   }
 }
 
-const mapStateToProps = ({ users: { loading }, workDates: { workDate, workDateData } }) => ({
+const mapStateToProps = ({
+  users: { loading },
+  workDates: { workDate, workDateData, refreshWorkDateDataId }
+}) => ({
   workDate: workDate,
-  workDateData // enhaned object : workDateData: workDateData
+  workDateData, // enhaned object : workDateData: workDateData
+  refreshWorkDateDataId
 })
 
 const mapDispatchToProps = dispatch => ({
