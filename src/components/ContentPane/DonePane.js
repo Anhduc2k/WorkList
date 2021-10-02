@@ -18,12 +18,10 @@ class DonePane extends Component {
       .then(() => {
         this.props.refreshWorkDateDataId(Math.random())
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch(err => {})
   }
   render() {
-    const { doneWorks, workDateId } = this.props
+    const { doneWorks } = this.props
     return (
       <Segment stacked>
         <Header>

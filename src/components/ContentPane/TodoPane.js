@@ -18,9 +18,7 @@ class TodoPane extends Component {
       .then(() => {
         this.props.refreshWorkDateDataId(Math.random())
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch(err => {})
   }
   handleUpdateStatus = work => {
     const { worksRef } = this.state
@@ -37,9 +35,7 @@ class TodoPane extends Component {
       .then(updatedWork => {
         this.props.refreshWorkDateDataId(Math.random())
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch(err => {})
   }
   render() {
     const { toDoWorks } = this.props
