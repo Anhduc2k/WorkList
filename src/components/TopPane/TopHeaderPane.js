@@ -41,12 +41,9 @@ class TopHeaderPane extends Component {
         .child(key)
         .update(newWorkDate)
         .then(() => {
-          console.log('success')
           this.saveWork(key, workName, worksRef)
         })
-        .catch(err => {
-          console.log(err)
-        })
+        .catch(err => {})
     }
   }
 
@@ -62,13 +59,10 @@ class TopHeaderPane extends Component {
       .push()
       .set(newWork)
       .then(() => {
-        console.log('save work')
         this.closeModal()
         this.props.refreshWorkDateDataId(Math.random())
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch(err => {})
   }
   isFormValid = ({ workName }) => workName
   closeModal = () => {
